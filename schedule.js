@@ -18,16 +18,19 @@ let striptags=require('striptags');
 
 let week=['日','一','二','三','四','五','六'];
 
-let login=async (username,password)=>{
+module.exports.fetchCaptcha=async ()=>{
+	let jar=requestPromise.jar();
 	let page=await request({
-		url: uri.resolve(urlBase,'default2.aspx'),
-		method: "POST",
-		form: {
-			txtUserName: "",
-			password: saltl+"OIH1sWonderful!"+saltr
-		}
+		url: uri.resolve(urlBase,'CheckCode.aspx'),
+		method: "GET",
+		encoding: null,
+		jar: jar
 	});
-	console.log(page);
+
+	return {
+		cookies: jar.getCookieString(urlBase),
+		captcha: page.body
+	}
 };
 
 let fetchPlan=async (cookieJar)=>{
@@ -177,6 +180,4 @@ let fetchSchedule=async (cookieJar)=>{
 	console.log(lessons);
 };
 
-cookieJar.setCookie('ASP.NET_SessionId=h1n5yv55bbmcmp45eu4kxg55','http://ojjx.wzu.edu.cn/');
-
-fetchSchedule(cookieJar);
+// fetchCaptcha();
