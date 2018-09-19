@@ -170,11 +170,14 @@ let fetchPlan=async (cookieJar)=>{
 	});
 };
 
-let fetchSchedule=async (cookieJar)=>{
+module.exports.fetchSchedule=async (cookieString,xh)=>{
+	let jar=requestPromise.jar();
+	jar.setCookie(cookieString,urlBase);
+
 	let page=await request({
-		uri: uri.resolve(urlBase,'/xskbcx.aspx?xh=18219110216&gnmkdm=N121603'),
+		uri: uri.resolve(urlBase,'/xskbcx.aspx?xh='+encodeURIComponent(xh)+'&gnmkdm=N121603'),
 		method: "GET",
-		jar: cookieJar,
+		jar: jar,
 		encoding: null
 	});
 	let $=cheerio.load(iconv.decode(page.body,'gb2312'),{
@@ -218,7 +221,8 @@ let fetchSchedule=async (cookieJar)=>{
 		matchFetchAllClass=regexFetchAllClass.exec(tableHtml);
 	}
 
-	console.log(lessons);
+	// console.log(lessons);
+	return lessons;
 };
 
 // fetchCaptcha();

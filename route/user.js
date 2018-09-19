@@ -60,6 +60,7 @@ router.post('/oa/login/:token',async (req,res)=>{
 	}
 
 	redisClient.set(`ojcoa_cookies_${req.params.token}`,loginStatus.cookies,'EX',2700/* sec */);
+	redisClient.set(`ojcoa_username_${req.params.token}`,username,'EX',2700/* sec */);
 
 	res.send({
 		status: 200,
