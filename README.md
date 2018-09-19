@@ -1,9 +1,16 @@
 # oujiang-college-oa-fetcher
 
+## Prerequisite
+
+  - MongoDB
+  - Redis
+  - *Internet Connection*
+
 ## Start Server
 
 	git clone https://github.com/moesoha/oujiang-college-oa-fetcher.git
 	cd oujiang-college-oa-fetcher
+	cp config.js.example config.js # edit as you like
 	npm install
 	node .
 
