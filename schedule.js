@@ -21,7 +21,7 @@ let week=['日','一','二','三','四','五','六'];
 module.exports.fetchCaptcha=async ()=>{
 	let jar=requestPromise.jar();
 	let page=await request({
-		url: uri.resolve(urlBase,'CheckCode.aspx'),
+		uri: uri.resolve(urlBase,'CheckCode.aspx'),
 		method: "GET",
 		encoding: null,
 		jar: jar
@@ -33,9 +33,50 @@ module.exports.fetchCaptcha=async ()=>{
 	}
 };
 
+module.exports.doLogin=async (cookieString,username,password,captcha)=>{
+	let jar=requestPromise.jar();
+	jar.setCookie(cookieString,urlBase);
+	// console.log(jar);
+	let statusCode=200;
+	try{
+		let page=await request({
+			uri: uri.resolve(urlBase,'default2.aspx'),
+			method: "POST",
+			form: {
+				txtUserName: username,
+				TextBox2: password,
+				txtSecretCode: captcha,
+				__VIEWSTATE: "dDwxNTMxMDk5Mzc0Ozs+yQtK1YbYY9vpBrR/vl1f+XLx3Qk=",
+				// RadioButtonList1: decodeURIComponent('%D1%A7%C9%FA'),
+				Button1: '',
+				// TextBox1: '',
+				// lbLanguage: '',
+				// hidPdrs: '',
+				// hidsc: ''
+			},
+			encoding: null,
+			jar: jar
+		});
+	}catch(e){
+		if(e.statusCode==302){
+			return {
+				success: true,
+				cookies: jar.getCookieString(urlBase)
+			}
+		}else{
+			throw e;
+		}
+	}
+	return {
+		success: false
+	};
+	// console.log(page);
+	// console.log(iconv.decode(page.body,'gb2312'));
+};
+
 let fetchPlan=async (cookieJar)=>{
 	let page=await request({
-		url: uri.resolve(urlBase,'/xsxkqk.aspx?xh=18219110216&gnmkdm=N121615'),
+		uri: uri.resolve(urlBase,'/xsxkqk.aspx?xh=18219110216&gnmkdm=N121615'),
 		method: "GET",
 		jar: cookieJar,
 		encoding: null
@@ -131,7 +172,7 @@ let fetchPlan=async (cookieJar)=>{
 
 let fetchSchedule=async (cookieJar)=>{
 	let page=await request({
-		url: uri.resolve(urlBase,'/xskbcx.aspx?xh=18219110216&gnmkdm=N121603'),
+		uri: uri.resolve(urlBase,'/xskbcx.aspx?xh=18219110216&gnmkdm=N121603'),
 		method: "GET",
 		jar: cookieJar,
 		encoding: null
@@ -181,3 +222,4 @@ let fetchSchedule=async (cookieJar)=>{
 };
 
 // fetchCaptcha();
+// module.exports.doLogin('ASP.NET_SessionId=j2vi0z2jlfh1d***ztzbizem','18219110216','***','q3i0');
