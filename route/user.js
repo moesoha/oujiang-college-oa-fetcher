@@ -8,7 +8,7 @@ require('bluebird').promisifyAll(redis.RedisClient.prototype);
 let redisClient=redis.createClient(config.redis.url);
 
 let router=Router();
-let db=require('../db');
+// let db=require('../db');
 let api=require('../schedule');
 
 router.all('/oa/start',async (_,res)=>{

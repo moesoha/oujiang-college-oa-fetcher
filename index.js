@@ -10,7 +10,7 @@ let bodyParser=require('body-parser');
 let logger=require('morgan');
 let fs=require('fs');
 let path=require('path');
-let db=require('./db');
+// let db=require('./db');
 
 app.use(logger('dev')); // TODO: not always in 'dev'
 app.use(bodyParser.json());
