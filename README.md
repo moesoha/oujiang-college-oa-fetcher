@@ -45,8 +45,9 @@ username={USERNAME}&password={PASSWORD}&captcha={CAPTCHA}
 POST /schedule/oa/get/{TOKEN}/current
 ```
 
-  - `data.success` Tells if the process finished successfully.
-  - `data.schedule` An array of classes in schedule.
+  - `data.semester` Current semester.
+  - `data.year` Current year.
+  - `data.lessons` lessons.
 
 ## License
 

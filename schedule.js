@@ -205,8 +205,6 @@ module.exports.fetchSchedule=async (cookieString,xh)=>{
 		let splitWeek=match[3].trim().split('|');
 		let match2=new RegExp('第([0-9]+)\-([0-9]+)周','g').exec(splitWeek[0]);
 		lessons.push({
-			semester: semester,
-			year: year,
 			name: striptags(matchFetchAllClass[1]), // striptags
 			teacher: striptags(matchFetchAllClass[3]),
 			place: striptags(matchFetchAllClass[4]),
@@ -222,7 +220,11 @@ module.exports.fetchSchedule=async (cookieString,xh)=>{
 	}
 
 	// console.log(lessons);
-	return lessons;
+	return {
+		semester: semester,
+		year: year,
+		lessons: lessons
+	};
 };
 
 // fetchCaptcha();
